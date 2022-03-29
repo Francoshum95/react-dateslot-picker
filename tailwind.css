@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+
+  .datesoltpicker-container{
+    @apply flex flex-col md:flex-row
+  }
+
+  .calendar-container{
+    @apply md:p-5 pt-5 px-5
+  }
+  .calendar-toggle{
+    @apply flex w-[20%] justify-between
+  }
+  .calendar-empty-day{
+    @apply w-8 h-8 flex items-center justify-center
+  }
+  .calendar-left-toggle{
+    @apply inline
+  }
+  .calendar-left-toggle-disable{
+    @apply hidden
+  }
+  .calendar-right-toggle{
+    @apply inline
+  }
+  .calendar-right-toggle-disable{
+    @apply hidden
+  }
+
+  .timeslot-container{
+    @apply h-[16rem] md:h-[13rem] md:pr-[1rem] md:pb-0 md:px-0 overflow-auto grid grid-cols-2 gap-2 pb-4 px-4
+  }
+
+  .timeslot-not-available-container{
+    @apply text-sm flex justify-center md:justify-start
+  }
+
+
+
+}
