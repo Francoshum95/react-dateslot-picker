@@ -97,7 +97,7 @@ export default function TimePicker({
               <div className='timeslot-container'>
                 {
                   timeslotArray && 
-                  timeslotArray.map((time: Date) => {
+                  timeslotArray.map((time: any) => {
                     return (
                       <TimeslotmMap
                         time={time}

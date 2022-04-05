@@ -98,6 +98,4 @@ export default function DateSlotPicker({
       />
     </div>
   )
-
-
 }

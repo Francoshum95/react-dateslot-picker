@@ -132,7 +132,6 @@ export default function useDateSlotPicker({
   const [selectedTimeslot, setSelectedTimeslot] = useState<Date | null>(null);
   const [calendarToggle, setCalendarToggle] = useState(initCalendarToggle(calendarType));
 
-
   useEffect(() => {
     const disableToggle = () => {
 

@@ -5,7 +5,6 @@ import useDateSlotPicker from '../src/useDateSlotPicker';
 import datetimeParse from '../src/utlis/datetimeParse';
 
 
-
 const DatePickerStory = ({
   isTimeslot = false,
   duration=30,
