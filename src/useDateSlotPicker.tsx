@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import { getCurrentDate,  checkIfEndPeriod, checkIfStartPeriod, getCalendarArray} from './utlis/Utilities';
-import { CALENDARALL, CALENDARLAST, CALENDARBEGIN, CALENDARNORMAL, CALENDARFIX, stylesArray} from './constant';
+import { CALENDARALL, CALENDARLAST, CALENDARBEGIN, CALENDARNORMAL, stylesArray, calendarTypeMap} from './constant';
 import { useDatePickerProps, selectedMonthDateProps, getTimeslotProps, getTimeProps} from './type/useDatePicker.type';
-
+ 
 const getTime = ({timeslot, startDatetime, endDatetime, duration, timeZone, currentDate, index, indexDate}: getTimeProps) : Date[] | getTimeProps => {
   const timeDelta = startDatetime.getTime() + duration * 60000;
   const newDate = new Date (new Date (timeDelta).toLocaleString("en-US", {timeZone: timeZone }));
@@ -73,38 +73,47 @@ const initMonth = (startDatetime: Date | number, currentDatetime: Date) => {
 }
 
 const initCalendarToggle = (calendarType: string) => {
-  switch (calendarType){
-    case CALENDARALL: 
-      return { 
-        previousPeriod: true,
-        nextPeriod: true,
-      };
-    case CALENDARLAST: 
-      return { 
-        previousPeriod: false,
-        nextPeriod: true,
-      };
-    case CALENDARFIX: 
-      return {
-        previousPeriod: false,
-        nextPeriod: false,
+  const calendarControl = calendarTypeMap[calendarType]
+
+  if (calendarControl){
+    return calendarControl
+  } else {
+    return calendarTypeMap[CALENDARALL]
+  }
+}
+
+const getCalendatToggle = (calendarType: string, isStartPeriod: boolean, isEndPeriod: boolean) => {
+  const toggleControl = calendarTypeMap[calendarType];
+
+  if (!calendarType){
+    return calendarTypeMap[CALENDARALL];
+  }
+
+  switch(calendarType){
+    case CALENDARLAST:
+      if (!isStartPeriod){
+        return calendarTypeMap[CALENDARALL]
+      } 
+      break
+    case CALENDARBEGIN:
+      if (!isStartPeriod){
+        return calendarTypeMap[CALENDARALL]
       }
-    case CALENDARBEGIN: 
-      return {
-        previousPeriod: true,
-        nextPeriod: true,
-      }
-    case CALENDARNORMAL: 
-      return {
-        previousPeriod: false,
-        nextPeriod: true,
+      break
+    case CALENDARNORMAL:
+      if (isStartPeriod){
+        return calendarTypeMap[CALENDARLAST]
+      } else if (isEndPeriod){
+        return calendarTypeMap[CALENDARBEGIN]
+      } else {
+        return calendarTypeMap[CALENDARALL]
       }
     default:
-      return {
-        previousPeriod: true,
-        nextPeriod: true,
-      }
-  } 
+      return toggleControl
+  }
+
+  return toggleControl
+
 }
 
 const getStyles = (styles: string) => {
@@ -138,56 +147,8 @@ export default function useDateSlotPicker({
       const isEndPeriod = checkIfEndPeriod({selectedMonth, endDatetime});
       const isStartPeriod = checkIfStartPeriod({selectedMonth, startDatetime});
 
-      switch(calendarType){
-        case CALENDARALL: 
-          break 
-        case CALENDARLAST:
-          if (isStartPeriod){
-            setCalendarToggle({
-              previousPeriod: false,
-              nextPeriod: true,
-            })
-          } else {
-            setCalendarToggle({
-              previousPeriod: true,
-              nextPeriod: true,
-            })
-          }
-          break
-        case CALENDARFIX:
-          break 
-        case CALENDARBEGIN: 
-          if (isEndPeriod){
-            setCalendarToggle({
-              previousPeriod: true,
-              nextPeriod: false,
-            })
-          } else {
-            setCalendarToggle({
-              previousPeriod: true,
-              nextPeriod: true,
-            })
-          }
-          break
-        case CALENDARNORMAL: 
-          if (isEndPeriod){
-            setCalendarToggle({
-              previousPeriod: true,
-              nextPeriod: false,
-            })
-          } else if (isStartPeriod){
-            setCalendarToggle({
-              previousPeriod: false,
-              nextPeriod: true,
-            })
-          } else {
-            setCalendarToggle({
-              previousPeriod: true,
-              nextPeriod: true,
-            })
-          }
-          break
-      }
+      setCalendarToggle(getCalendatToggle(calendarType, isStartPeriod, isEndPeriod))
+
     }
     disableToggle();
     

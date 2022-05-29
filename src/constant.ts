@@ -3,6 +3,37 @@ export const CALENDARLAST = 'CALENDARLAST';
 export const CALENDARBEGIN = 'CALENDARBEGIN';
 export const CALENDARNORMAL = 'CALENDARNORMAL';
 export const CALENDARFIX = 'CALENDARFIX'
+
+interface calendarTypeMapType {
+  [key: string]: {
+    previousPeriod: boolean,
+    nextPeriod: boolean
+  }
+}
+
+export const calendarTypeMap:calendarTypeMapType = {
+  "CALENDARALL": {
+    previousPeriod: true,
+    nextPeriod: true,
+  }, 
+  "CALENDARLAST": {
+    previousPeriod: false,
+    nextPeriod: true,
+  },
+  "CALENDARFIX": {
+    previousPeriod: false,
+    nextPeriod: false,
+  },
+  "CALENDARBEGIN": {
+    previousPeriod: true,
+    nextPeriod: false,
+  },
+  "CALENDARNORMAL": {
+    previousPeriod: false,
+    nextPeriod: true,
+  },
+}
+
 export const weeklyStr = ["S", "M", "T", "W", "T", "F", "S"];
 export const monthStr : Record<number, string>= {
   0: "January",
