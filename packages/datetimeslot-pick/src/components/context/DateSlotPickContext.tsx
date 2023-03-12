@@ -2,13 +2,6 @@ import React, { createContext, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import { START, END } from '../constant';
 
-export type DateSlotPickerContext = ({
-  currentDatetime: Date
-  startDate: Date
-  endDate: Date
-  childree: ReactNode
-}) => React.Context<ReactNode>
-
 
 type props = {
   currentDate?: number

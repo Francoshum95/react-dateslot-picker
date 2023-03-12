@@ -12,39 +12,13 @@ type calendarPeriodType = {
 };
 type onChangeCalendarPeriodType = (direction: typeof FORWARD | typeof PREVIOUS) => void;
 
-const getInitMonth = (props: {
-  startDatetime: Date | 1,
-  endDatetime: Date | 1,
-  currentDatetime: Date
-}) => {
-  const {startDatetime, endDatetime, currentDatetime} = props;
-
-  const initialMonth = {
-    year: currentDatetime.getFullYear(),
-    month: currentDatetime.getMonth()
-  }
-
-  if (startDatetime == 1 || 
-    (endDatetime != 1 && endDatetime > currentDatetime )){
-    return initialMonth
-  }
-
-  if (startDatetime > currentDatetime){
-    initialMonth.year = startDatetime.getFullYear()
-    initialMonth.month = startDatetime.getMonth()
-  }
-
-  return initialMonth
-};
-
 const useDatePicker = () => {
   const {currentDatetime, startDatetime , endDatetime} = useContext(DateSlotPickCtx);
 
-  const [calendarPeriod, setCalendarPeriod] = useState<calendarPeriodType>(getInitMonth({
-    startDatetime,
-    endDatetime,
-    currentDatetime
-  }))
+  const [calendarPeriod, setCalendarPeriod] = useState<calendarPeriodType>({
+    year: currentDatetime.getFullYear(),
+    month: currentDatetime.getMonth()
+  })
 
   const onChangeCalendarPeriod:onChangeCalendarPeriodType = (driection) => {
     const cloneCalendarPeriod = {...calendarPeriod};  
