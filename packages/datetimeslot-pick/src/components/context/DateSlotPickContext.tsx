@@ -1,76 +1,63 @@
-import React, { createContext, useMemo, useState } from 'react';
-import type { ReactNode } from 'react';
-import { START, END } from '../constant';
+import React, { createContext, useState } from 'react';
+import { DateTime } from 'luxon';
+import { defaultTimezone } from '../../utils/common';
 
+import type { ReactNode } from 'react';
 
 type props = {
-  currentDate?: number
-  startDate?: number
-  endDate?: number
+  currentDate?: number,
+  timezone: string,
   children: ReactNode
-};
-
-type currentDatetimeType = Date;
-type selectedDateType = null | Date;
-type perodDatetime = Date | 1;
-type isLoadingType = boolean;
-
-const getDatetime = (timeStamp: number | undefined, period: typeof START | typeof END) => {
-  
-  if (timeStamp){
-    return new Date(timeStamp)
-  }
-
-  const currentDatetime = new Date();
-  const currentYaer = currentDatetime.getFullYear();
-
-  if (period === START){
-    currentDatetime.setFullYear(currentYaer - 100)
-  };
-
-  if (period === END){
-    currentDatetime.setFullYear(currentYaer +100)
-  }
-
-  return currentDatetime
-
-};
-
-const getCurrentDatetime = (timeStamp: number | undefined) => {
-  if (timeStamp){
-    return new Date(timeStamp)
-  }
-
-  return new Date()
 }
 
-export const DateSlotPickCtx = createContext({
-  currentDatetime: new Date(),
-  startDatetime: new Date(),
-  endDatetime: new Date()
-})
+export type selectedDateType = null | DateTime;
+export type currentDatetimeType = DateTime;
+export type selectedTimeZoneType = string;
+export type onChangeTimezoneType = (timezone: string) => void; 
+export type onChangeSelectedDate = (date: DateTime) => void;
 
-export const DateSlotPickContext = ({
-  currentDate,
-  startDate,
-  endDate,
-  children
-}:props) => {
-  const [isLoading, setIsLoading] = useState<isLoadingType>(false);
-  const [selectedDate, setSelectedDate] = useState<selectedDateType>(null);
-  const [selecedTimeslot, setSelecedTimeslot] = useState(null);
+interface IsDateSlotPickCtx {
+  currentDatetime: currentDatetimeType
+  selectedDate: selectedDateType
+  timezone: selectedTimeZoneType
+  onChangeTimezone: onChangeTimezoneType
+  onChangeSelectedDate: onChangeSelectedDate
+}
+const defaultCtx = {
+  currentDatetime: DateTime.now(),
+  selectedDate: null, 
+  timezone: defaultTimezone,
+  onChangeTimezone: (timezone: string) => {},
+  onChangeSelectedDate: (time: DateTime) => {}
+}
 
-  const currentDatetime:currentDatetimeType = getCurrentDatetime(currentDate)
-  const startDatetime:perodDatetime  = useMemo(() => getDatetime(startDate, START), []);
-  const endDatetime:perodDatetime = useMemo(() => getDatetime(endDate, END), []);
+export const DateSlotPickCtx = createContext<IsDateSlotPickCtx>(defaultCtx)
 
-  const onChangeIsLoading = () => {
-    setIsLoading(prevState => !prevState)
+export const DateSlotPickContext = ({ currentDate, timezone, children}: props) => {
+  const [ selectedDate, setSelectedDate ] = useState<selectedDateType>(null);
+  const [ selectedTimeZone, setSelectedTimeZone ] = useState<string>(timezone);
+
+  const currentDatetime = currentDate ? DateTime.fromMillis(currentDate).setZone(timezone) : DateTime.now().setZone(timezone); 
+
+  const onChangeTimezone = (timeZone: string) => {
+    setSelectedTimeZone(timeZone)
+  };
+
+  const onChangeSelectedDate:onChangeSelectedDate = (date) => {
+    setSelectedDate(date)
+  };
+
+  const ctxProps = {
+    currentDatetime,
+    selectedDate,
+    timezone: selectedTimeZone,
+    onChangeTimezone,
+    onChangeSelectedDate
   }
 
   return (
     <DateSlotPickCtx.Provider
-      value={{currentDatetime, startDatetime, endDatetime}}
+      value={{...ctxProps}}
     >
       {children}
     </DateSlotPickCtx.Provider>

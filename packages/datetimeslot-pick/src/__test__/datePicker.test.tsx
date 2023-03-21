@@ -1,8 +1,10 @@
 import { describe, expect, it, beforeEach, afterEach } from 'vitest';
 import { act, cleanup, renderHook, waitFor } from '@testing-library/react';
+import { DateTime } from 'luxon';
 
 import { DateSlotPickContext } from '../components/context/DateSlotPickContext';
 import useDatePicker from '../components/hook/useDatePicker';
+import { defaultTimezone } from '../utils/common';
 import { FORWARD, PREVIOUS } from '../components/constant';
 import type { ReactNode } from 'react';
 
@@ -35,27 +37,27 @@ const nextPeriodMockResult = [
 ]
 
 const getMockCalenarArray = (array: number[]) => {
-  const calendarArray = [] as (Date | string)[];
+  const calendarArray = [] as (DateTime | string)[];
 
   array.forEach((timeStamp) => {
-    calendarArray.push(new Date(timeStamp * 1000))
+    calendarArray.push(DateTime.fromMillis(timeStamp * 1000).setZone(defaultTimezone))
   });
 
   const firstElement = calendarArray[0];
   const lastElement = calendarArray[calendarArray.length - 1];
 
-  if (firstElement instanceof Date && lastElement instanceof Date) {
-    const startDate = firstElement.getDay();
-    const endDate = lastElement.getDay();
+  if (firstElement instanceof DateTime && lastElement instanceof DateTime) {
+    const startDate = firstElement.weekday;
+    const endDate = lastElement.weekday;
 
-    if (startDate !== 0) {
+    if (startDate !== 2) {
       for (let numString = 0; startDate > numString; numString++) {
         calendarArray.unshift('');
       }
     }
 
-    if (endDate !== 6) {
-      for (let numString = 0; 6 - endDate > numString; numString++) {
+    if (endDate !== 7) {
+      for (let numString = 0; 7 - endDate > numString; numString++) {
         calendarArray.push('');
       }
     }
@@ -66,18 +68,18 @@ const getMockCalenarArray = (array: number[]) => {
 
 describe('Datepicker', () => {
   describe('onChange Calendar Period', () => {
-    const currentDate = new Date();
-
+    const mockDate = DateTime.fromObject({year: defaultMockYaer, month: defaultMockMonth})
+    
     it('should change calendarPeriod forward', () => {
-      const currentDatetime = currentDate.setMonth(defaultMockMonth);
+      const currentDate = mockDate.toMillis();
 
       const wrapper = ({ children }: { children: ReactNode }) => (
-        <DateSlotPickContext currentDate={currentDatetime}>
+        <DateSlotPickContext timezone={defaultTimezone} currentDate={currentDate}>
           {children}
         </DateSlotPickContext>
       );
 
-      const { result } = renderHook(() => useDatePicker(), { wrapper });
+      const { result } = renderHook(() => useDatePicker({}), { wrapper });
 
       act(() => {
         result.current.onChangeCalendarPeriod(FORWARD);
@@ -88,15 +90,15 @@ describe('Datepicker', () => {
     });
 
     it('should change calendarPeriod backword', () => {
-      const currentDatetime = currentDate.setMonth(defaultMockMonth);
+      const currentDate = mockDate.toMillis();
 
       const wrapper = ({ children }: { children: ReactNode }) => (
-        <DateSlotPickContext currentDate={currentDatetime}>
+        <DateSlotPickContext timezone={defaultTimezone} currentDate={currentDate}>
           {children}
         </DateSlotPickContext>
       );
 
-      const { result } = renderHook(() => useDatePicker(), { wrapper });
+      const { result } = renderHook(() => useDatePicker({}), { wrapper });
 
       act(() => {
         result.current.onChangeCalendarPeriod(PREVIOUS);
@@ -107,57 +109,59 @@ describe('Datepicker', () => {
     });
 
     it('should change calendarPeriod forward to next year', () => {
-      const currentDatetime = currentDate.setMonth(defaultMockMonth + 1);
+      const mockDate = DateTime.fromObject({year: defaultMockYaer, month: 12})
+      const currentDate = mockDate.toMillis();
 
       const wrapper = ({ children }: { children: ReactNode }) => (
-        <DateSlotPickContext currentDate={currentDatetime}>
+        <DateSlotPickContext timezone={defaultTimezone} currentDate={currentDate}>
           {children}
         </DateSlotPickContext>
       );
 
-      const { result } = renderHook(() => useDatePicker(), { wrapper });
+      const { result } = renderHook(() => useDatePicker({}), { wrapper });
 
       act(() => {
         result.current.onChangeCalendarPeriod(FORWARD);
       });
 
-      expect(result.current.calendarPeriod.month).toBe(0);
+      expect(result.current.calendarPeriod.month).toBe(1);
       expect(result.current.calendarPeriod.year).toBe(defaultMockYaer + 1);
     });
 
-    it('should change calendarPeriod forward to previous year', () => {
-      const currentDatetime = currentDate.setMonth(0);
+    it('should change calendarPeriod BACK to previous year', () => {
+      const mockDate = DateTime.fromObject({year: defaultMockYaer, month: 1})
+      const currentDate = mockDate.toMillis();
 
       const wrapper = ({ children }: { children: ReactNode }) => (
-        <DateSlotPickContext currentDate={currentDatetime}>
+        <DateSlotPickContext timezone={defaultTimezone} currentDate={currentDate}>
           {children}
         </DateSlotPickContext>
       );
 
-      const { result } = renderHook(() => useDatePicker(), { wrapper });
+      const { result } = renderHook(() => useDatePicker({}), { wrapper });
 
       act(() => {
         result.current.onChangeCalendarPeriod(PREVIOUS);
       });
 
-      expect(result.current.calendarPeriod.month).toBe(11);
+      expect(result.current.calendarPeriod.month).toBe(12);
       expect(result.current.calendarPeriod.year).toBe(defaultMockYaer - 1);
     });
   });
 
   describe('initial calendar', () => {
-    const currentDate = new Date();
-
+    const mockDate = DateTime.fromObject({year: defaultMockYaer, month: 11});
+    
     it('should match', async () => {
-      const currentDatetime = currentDate.setMonth(defaultMockMonth);
+      const currentDate = mockDate.toMillis();
 
       const wrapper = ({ children }: { children: ReactNode }) => (
-        <DateSlotPickContext currentDate={currentDatetime}>
+        <DateSlotPickContext timezone={defaultTimezone} currentDate={currentDate}>
           {children}
         </DateSlotPickContext>
       );
 
-      const { result, rerender } = renderHook(() => useDatePicker(), {
+      const { result, rerender } = renderHook(() => useDatePicker({}), {
         wrapper,
       });
 
@@ -167,15 +171,15 @@ describe('Datepicker', () => {
     });
 
     it ('it should match - switch month', () => {
-      const currentDatetime = currentDate.setMonth(defaultMockMonth);
+      const currentDate = mockDate.toMillis();
 
       const wrapper = ({ children }: { children: ReactNode }) => (
-        <DateSlotPickContext currentDate={currentDatetime}>
+        <DateSlotPickContext timezone={defaultTimezone} currentDate={currentDate}>
           {children}
         </DateSlotPickContext>
       );
 
-      const { result, rerender } = renderHook(() => useDatePicker(), {
+      const { result, rerender } = renderHook(() => useDatePicker({}), {
         wrapper,
       });
 

@@ -1,41 +1,60 @@
 import { useState, useContext, useMemo } from 'react';
 import { DateSlotPickCtx } from '../context/DateSlotPickContext';
-import { FIRST_MONTH, LAST_MONTH, FORWARD, PREVIOUS } from '../constant';
+import {
+  START,
+  END,
+  FIRST_MONTH,
+  LAST_MONTH,
+  FORWARD,
+  PREVIOUS,
+} from '../constant';
+import { DateTime } from 'luxon';
+import type { selectedTimeZoneType } from '../context/DateSlotPickContext';
+
+type props = {
+  startDate?: number;
+  endDate?: number;
+};
 
 type calendarPeriodType = {
   year: number;
   month: number;
 };
-type selectedDate = null | Date;
 type onChangeCalendarPeriodType = (
   direction: typeof FORWARD | typeof PREVIOUS
 ) => void;
 
-const getCalendarArray = (calendarPeriod: calendarPeriodType) => {
-  const initialDate = new Date(calendarPeriod.year, calendarPeriod.month, 1, 0);
-  const calendarArray = [] as (Date | string)[];
+const getCalendarArray = (
+  calendarPeriod: calendarPeriodType,
+  timezone: selectedTimeZoneType
+) => {
+  let initialDate = DateTime.fromObject({
+    year: calendarPeriod.year,
+    month: calendarPeriod.month,
+  }).setZone(timezone);
+  const calendarArray = [] as (DateTime | string)[];
 
-  while (initialDate.getMonth() === calendarPeriod.month) {
-    const cloneDate = new Date(initialDate);
-    calendarArray.push(cloneDate);
-    initialDate.setDate(initialDate.getDate() + 1);
+  while (initialDate.month === calendarPeriod.month) {
+    calendarArray.push(initialDate);
+    initialDate = initialDate.set({day: initialDate.day + 1}).setZone(timezone);
   }
 
   const firstElement = calendarArray[0];
   const lastElement = calendarArray[calendarArray.length - 1];
 
-  if (firstElement instanceof Date && lastElement instanceof Date) {
-    const startDate = firstElement.getDay();
-    const endDate = lastElement.getDay();
+  if (firstElement instanceof DateTime && lastElement instanceof DateTime) {
+    const startDate = firstElement.weekday;
+    const endDate = lastElement.weekday;
+    
+    if (startDate !== 2) {
 
-    if (startDate !== 0) {
       for (let numString = 0; startDate > numString; numString++) {
         calendarArray.unshift('');
       }
     }
 
-    if (endDate !== 6) {
-      for (let numString = 0; 6 - endDate > numString; numString++) {
+    if (endDate !== 7) {
+      for (let numString = 0; 7 - endDate > numString; numString++) {
         calendarArray.push('');
       }
     }
@@ -44,18 +63,53 @@ const getCalendarArray = (calendarPeriod: calendarPeriodType) => {
   return calendarArray;
 };
 
-const useDatePicker = () => {
-  const { currentDatetime, startDatetime, endDatetime } =
-    useContext(DateSlotPickCtx);
+const getDatetime = ({
+  timeStamp,
+  period,
+  timezone,
+}: {
+  timeStamp?: number;
+  period: typeof START | typeof END;
+  timezone: selectedTimeZoneType;
+}) => {
+  let currentDatetime = DateTime.now().setZone(timezone);
+
+  if (timeStamp) {
+    return DateTime.fromMillis(timeStamp).setZone(timezone);
+  }
+
+  const currentYaer = currentDatetime.year;
+
+  if (period === START) {
+    currentDatetime.set({ year: currentYaer - 100 });
+  }
+
+  if (period === END) {
+    currentDatetime.set({ year: currentYaer + 100 });
+  }
+
+  return currentDatetime;
+};
+
+const useDatePicker = (props: props) => {
+  const { startDate, endDate } = props;
+  const { currentDatetime, timezone } = useContext(DateSlotPickCtx);
 
   const [calendarPeriod, setCalendarPeriod] = useState<calendarPeriodType>({
-    year: currentDatetime.getFullYear(),
-    month: currentDatetime.getMonth(),
+    year: currentDatetime.year,
+    month: currentDatetime.month,
   });
 
-  const [selectedDate, setSelectedDate] = useState<selectedDate>(null);
+  const startDatetime: DateTime = useMemo(
+    () => getDatetime({ timeStamp: startDate, period: START, timezone }),
+    [timezone]
+  );
+  const endDatetime: DateTime = useMemo(
+    () => getDatetime({ timeStamp: endDate, period: END, timezone }),
+    [timezone]
+  );
   const calendarArray = useMemo(
-    () => getCalendarArray(calendarPeriod),
+    () => getCalendarArray(calendarPeriod, timezone),
     [calendarPeriod.year, calendarPeriod.month]
   );
 
@@ -64,20 +118,21 @@ const useDatePicker = () => {
     const { month, year } = cloneCalendarPeriod;
 
     if (driection === FORWARD) {
-      cloneCalendarPeriod.month = month === LAST_MONTH ? 0 : month + 1;
+      cloneCalendarPeriod.month = month === LAST_MONTH ? 1 : month + 1;
       cloneCalendarPeriod.year = month === LAST_MONTH ? year + 1 : year;
     }
 
     if (driection === PREVIOUS) {
-      cloneCalendarPeriod.month = month === FIRST_MONTH ? 11 : month - 1;
+      cloneCalendarPeriod.month = month === FIRST_MONTH ? 12 : month - 1;
       cloneCalendarPeriod.year = month === FIRST_MONTH ? year - 1 : year;
     }
 
     setCalendarPeriod(cloneCalendarPeriod);
   };
 
-
   return {
+    startDatetime,
+    endDatetime,
     calendarArray,
     calendarPeriod,
     onChangeCalendarPeriod,
