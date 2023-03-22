@@ -5,15 +5,15 @@ export interface IsDateSlotPicker {
   startDate?: number;
   endDate?: number;
   currentDate?: number;
-  dailyTimePair: [
+  dailyTimePair?: [
     {
       startTime: [];
       endTime: [];
     }
   ];
-  disableWeekly: string[] | number[];
-  disableSpecific: string[] | number[];
-  disableDate: number[];
+  disableWeekly?: (string|number)[] 
+  disableSpecific?: (string|number)[] 
+  disableDate?: number[];
   timeZone?: string;
 }
 

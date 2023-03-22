@@ -9,6 +9,7 @@ import {
   PREVIOUS,
 } from '../constant';
 import { DateTime } from 'luxon';
+import type { IsDateSlotPicker } from '..';
 import type { selectedTimeZoneType } from '../context/DateSlotPickContext';
 
 type props = {
@@ -91,8 +92,37 @@ const getDatetime = ({
   return currentDatetime;
 };
 
-const useDatePicker = (props: props) => {
-  const { startDate, endDate } = props;
+const getDisable = (disable: IsDateSlotPicker['disableSpecific'] | IsDateSlotPicker['disableWeekly']) => {
+  const dateArray: number [] = [];
+
+  if (!disable || disable.length === 0){
+    return dateArray
+  };
+
+  disable.forEach(date => {
+    if (typeof date === 'string'){
+      const splitDate = date.split('-');
+
+      const startIndex = parseInt(splitDate[0], 10);
+      const endIndex = parseInt(splitDate[1], 10);
+
+      if (isNaN(endIndex)) {
+        dateArray.push(startIndex);
+      } else {
+        for (let i = startIndex; endIndex >= i; i++) {
+          dateArray.push(i);
+        }
+      }
+    } else {
+      dateArray.push(date)
+    }
+  });
+
+  return dateArray
+};
+
+const useDatePicker = (props: IsDateSlotPicker) => {
+  const { startDate, endDate, disableWeekly, disableSpecific } = props;
   const { currentDatetime, timezone } = useContext(DateSlotPickCtx);
 
   const [calendarPeriod, setCalendarPeriod] = useState<calendarPeriodType>({
@@ -110,8 +140,10 @@ const useDatePicker = (props: props) => {
   );
   const calendarArray = useMemo(
     () => getCalendarArray(calendarPeriod, timezone),
-    [calendarPeriod.year, calendarPeriod.month]
+    [calendarPeriod.year, calendarPeriod.month, timezone]
   );
+  const disableWeeklyDay = useMemo(() => getDisable(disableWeekly), [])
+  const disableSpecificDate = useMemo(() => getDisable(disableSpecific), [])
 
   const onChangeCalendarPeriod: onChangeCalendarPeriodType = (driection) => {
     const cloneCalendarPeriod = { ...calendarPeriod };
@@ -135,6 +167,8 @@ const useDatePicker = (props: props) => {
     endDatetime,
     calendarArray,
     calendarPeriod,
+    disableWeeklyDay,
+    disableSpecificDate,
     onChangeCalendarPeriod,
   };
 };
