@@ -2,8 +2,8 @@ import { describe, expect, it, beforeEach, afterEach } from 'vitest';
 import { act, cleanup, renderHook, waitFor } from '@testing-library/react';
 import { DateTime } from 'luxon';
 
-import { DateSlotPickContext } from '../components/context/DateSlotPickContext';
-import useDatePicker from '../components/hook/useDatePicker';
+import { DateSlotPickContext } from '../context/DateSlotPickContext';
+import useDatePicker from '../hook/useDatePicker';
 import { defaultTimezone } from '../utils/common';
 import { FORWARD, PREVIOUS } from '../components/constant';
 import type { ReactNode } from 'react';

@@ -7,9 +7,9 @@ import {
   LAST_MONTH,
   FORWARD,
   PREVIOUS,
-} from '../constant';
+} from '../components/constant';
 import { DateTime } from 'luxon';
-import type { IsDateSlotPicker } from '..';
+import type { IsDateSlotPicker } from '../components';
 import type { selectedTimezoneType } from '../context/DateSlotPickContext';
 
 type calendarPeriodType = {

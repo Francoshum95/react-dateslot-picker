@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react';
 import { DateTime } from 'luxon';
-import { defaultTimezone } from '../../utils/common';
+import { defaultTimezone } from '../utils/common';
 
 import type { ReactNode } from 'react';
 

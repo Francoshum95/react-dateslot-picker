@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { renderHook } from '@testing-library/react';
 
-import { DateSlotPickContext } from '../components/context/DateSlotPickContext';
-import useDatePicker from '../components/hook/useDatePicker';
+import { DateSlotPickContext } from '../context/DateSlotPickContext';
+import useDatePicker from '../hook/useDatePicker';
 import { defaultTimezone } from '../utils/common';
 
 import type { ReactNode } from 'react';

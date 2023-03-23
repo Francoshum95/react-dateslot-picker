@@ -1,4 +1,4 @@
-import { DateSlotPickContext } from './context/DateSlotPickContext';
+import { DateSlotPickContext } from '../context/DateSlotPickContext';
 import { defaultTimezone } from '../utils/common';
 
 export interface IsDateSlotPicker {
