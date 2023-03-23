@@ -10,12 +10,7 @@ import {
 } from '../constant';
 import { DateTime } from 'luxon';
 import type { IsDateSlotPicker } from '..';
-import type { selectedTimeZoneType } from '../context/DateSlotPickContext';
-
-type props = {
-  startDate?: number;
-  endDate?: number;
-};
+import type { selectedTimezoneType } from '../context/DateSlotPickContext';
 
 type calendarPeriodType = {
   year: number;
@@ -27,7 +22,7 @@ type onChangeCalendarPeriodType = (
 
 const getCalendarArray = (
   calendarPeriod: calendarPeriodType,
-  timezone: selectedTimeZoneType
+  timezone: selectedTimezoneType
 ) => {
   let initialDate = DateTime.fromObject({
     year: calendarPeriod.year,
@@ -71,25 +66,29 @@ const getDatetime = ({
 }: {
   timeStamp?: number;
   period: typeof START | typeof END;
-  timezone: selectedTimeZoneType;
+  timezone: selectedTimezoneType;
 }) => {
-  let currentDatetime = DateTime.now().setZone(timezone);
-
+  
   if (timeStamp) {
     return DateTime.fromMillis(timeStamp).setZone(timezone);
   }
 
+  const currentDatetime = DateTime.now().setZone(timezone);
   const currentYaer = currentDatetime.year;
 
   if (period === START) {
-    currentDatetime.set({ year: currentYaer - 100 });
+    return DateTime.fromObject({
+      year: currentYaer - 100, month: 1
+    }).setZone(timezone);
   }
 
   if (period === END) {
-    currentDatetime.set({ year: currentYaer + 100 });
+    return DateTime.fromObject({
+      year: currentYaer + 100, month: 1
+    }).setZone(timezone);
   }
 
-  return currentDatetime;
+  return currentDatetime
 };
 
 const getDisable = (disable: IsDateSlotPicker['disableSpecific'] | IsDateSlotPicker['disableWeekly']) => {
@@ -142,8 +141,13 @@ const useDatePicker = (props: IsDateSlotPicker) => {
     () => getCalendarArray(calendarPeriod, timezone),
     [calendarPeriod.year, calendarPeriod.month, timezone]
   );
-  const disableWeeklyDay = useMemo(() => getDisable(disableWeekly), [])
-  const disableSpecificDate = useMemo(() => getDisable(disableSpecific), [])
+  const disableWeeklyDay = useMemo(() => getDisable(disableWeekly), []);
+  const disableSpecificDate = useMemo(() => getDisable(disableSpecific), []);
+
+  const isForwardDisable = currentDatetime.toMillis() >= endDatetime.toMillis() || 
+    (calendarPeriod.year === endDatetime.year && calendarPeriod.month === endDatetime.month);
+  const isPreviousDisable = currentDatetime.toMillis() >= endDatetime.toMillis() || 
+    (calendarPeriod.year <= startDatetime.year && calendarPeriod.month <= startDatetime.month);
 
   const onChangeCalendarPeriod: onChangeCalendarPeriodType = (driection) => {
     const cloneCalendarPeriod = { ...calendarPeriod };
@@ -163,6 +167,8 @@ const useDatePicker = (props: IsDateSlotPicker) => {
   };
 
   return {
+    isForwardDisable,
+    isPreviousDisable,
     startDatetime,
     endDatetime,
     calendarArray,

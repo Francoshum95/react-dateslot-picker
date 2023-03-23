@@ -7,19 +7,20 @@ export interface IsDateSlotPicker {
   currentDate?: number;
   dailyTimePair?: [
     {
-      startTime: [];
-      endTime: [];
+      startTime: number[];
+      endTime: number[];
     }
   ];
   disableWeekly?: (string|number)[] 
   disableSpecific?: (string|number)[] 
   disableDate?: number[];
-  timeZone?: string;
+  timezone?: string;
+  duration?: number
 }
 
 export const DateSlotPicker = (props: IsDateSlotPicker) => {
   const { currentDate, startDate, endDate } = props;
-  const timezone = props.timeZone || defaultTimezone;
+  const timezone = props.timezone || defaultTimezone;
 
   const ctxProps = {
     timezone,

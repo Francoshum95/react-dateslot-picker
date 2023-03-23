@@ -12,14 +12,14 @@ type props = {
 
 export type selectedDateType = null | DateTime;
 export type currentDatetimeType = DateTime;
-export type selectedTimeZoneType = string;
+export type selectedTimezoneType = string;
 export type onChangeTimezoneType = (timezone: string) => void; 
 export type onChangeSelectedDate = (date: DateTime) => void;
 
 interface IsDateSlotPickCtx {
   currentDatetime: currentDatetimeType
   selectedDate: selectedDateType
-  timezone: selectedTimeZoneType
+  timezone: selectedTimezoneType
   onChangeTimezone: onChangeTimezoneType
   onChangeSelectedDate: onChangeSelectedDate
 }
