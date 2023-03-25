@@ -252,7 +252,81 @@ describe('Datepicker', () => {
 
       expect(result.current.calendarArray).toEqual(mockResult);
     });
+  });
 
+  describe('select date', () => {
+    const mockDate = DateTime.fromObject({year: defaultMockYaer, month: defaultMockMonth}).setZone(defaultTimezone);
+    const currentDate = mockDate.toMillis();
 
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <DateSlotPickContext timezone={defaultTimezone} currentDate={currentDate}>
+        {children}
+      </DateSlotPickContext>
+    );
+    
+    it ("should auto select next available date - no disable date", () => {
+      const { result } = renderHook(() => useDatePicker({}), {
+        wrapper,
+      });
+
+      const resultDate = DateTime.fromObject({
+        year: defaultMockYaer,
+        month: defaultMockMonth,
+        day: mockDate.day
+      }).setZone(defaultTimezone)
+
+      expect(result.current.selectedDate?.toMillis()).toBe(resultDate.toMillis())
+    });    
+
+    it ("should auto selected next available date - disableSpecific", () => {
+      const disableSpecific = [mockDate.day];
+      const { result } = renderHook(() => useDatePicker({
+        disableSpecific
+      }), {
+        wrapper,
+      });
+
+      const resultDate = DateTime.fromObject({
+        year: defaultMockYaer,
+        month: defaultMockMonth,
+        day: mockDate.day + 1
+      });
+      
+      expect(result.current.selectedDate?.toMillis()).toBe(resultDate.toMillis())
+    });
+
+    it ("should auto selected next available date - disableSpecific", () => {
+      const disableWeekly = [mockDate.weekday];
+      const { result } = renderHook(() => useDatePicker({
+        disableWeekly
+      }), {
+        wrapper,
+      });
+
+      const resultDate = DateTime.fromObject({
+        year: defaultMockYaer,
+        month: defaultMockMonth,
+        day: mockDate.day + 1
+      });
+      
+      expect(result.current.selectedDate?.toMillis()).toBe(resultDate.toMillis())
+    });
+
+    it ("should auto selected next available date - disableSpecific", () => {
+      const disableDate = [currentDate];
+      const { result } = renderHook(() => useDatePicker({
+        disableDate
+      }), {
+        wrapper,
+      });
+
+      const resultDate = DateTime.fromObject({
+        year: defaultMockYaer,
+        month: defaultMockMonth,
+        day: mockDate.day + 1
+      });
+      
+      expect(result.current.selectedDate?.toMillis()).toBe(resultDate.toMillis())
+    });
   });
 });
