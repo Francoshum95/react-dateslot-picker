@@ -1,12 +1,21 @@
 {
   "name": "@react/datetimeslot-pick",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
-  "module": "./dist/index.ts",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/main.umd.js",
+  "module": "./dist/main.ts",
+  "types": "./dist/main.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/main.es.js",
+      "require": "./dist/main.umd.js"
+    }
+  },
   "files": [
-    "dist"
+    "dist/",
+    "src/",
+    "!src/**/*.test.tsx"
   ],
   "scripts": {
     "dev": "vite build --watch",
