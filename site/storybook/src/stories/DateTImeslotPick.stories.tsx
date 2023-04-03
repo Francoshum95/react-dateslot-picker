@@ -1,7 +1,8 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { within, userEvent } from '@storybook/testing-library';
-import { DateSlotPicker } from '@react/datetimeslot-pick'
+import {DateSlotPicker} from '@react/datetimeslot-pick';
+import '@react/datetimeslot-pick/dist/style.css'
 
 export default {
   title: 'Example/DateSlotPicker',
