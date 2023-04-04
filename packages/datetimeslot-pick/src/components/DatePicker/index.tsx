@@ -108,8 +108,7 @@ const CalendarDate = (props: CalendarDateType) => {
   
   const isToday = currentDatetime.toISODate() === calendarDate.toISODate();
 
-  if ( typeof calendarDate === 'string' ||
-    disableWeeklyDay.includes(calendarDate.weekday) || 
+  if ( disableWeeklyDay.includes(calendarDate.weekday) || 
     disableSpecificDate.includes(calendarDate.day) ||
     disableDatetime.includes(calendarDate.toMillis()) ||
     calendarDate.toISODate() < currentDatetime.toISODate()
