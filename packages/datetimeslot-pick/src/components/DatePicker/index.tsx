@@ -34,10 +34,10 @@ const stylesMap = {
     dark: 'dateslotpicker-rounded-full dateslotpicker-bg-red-500 dateslotpicker-text-white'
   },
   today: {
-    dark: 'dateslotpicker-text-green-500'
+    dark: 'dateslotpicker-text-green-500 dateslotpicker-bg-transparent'
   },
   availableDate: {
-    dark: 'dateslotpicker-text-white'
+    dark: 'dateslotpicker-text-white dateslotpicker-bg-transparent'
   }
 };
 
@@ -53,12 +53,17 @@ const DisableDate = ({
   isToday: boolean,
   calendarDate:DateTime, 
 }) => (
-  <div className={`dateslotpicker-w-8 dateslotpicker-h-8 dateslotpicker-flex 
-  dateslotpicker-items-center dateslotpicker-justify-center ${isToday ? 'dateslotpicker-text-green-500' : 
-  'dateslotpicker-text-gray-500'
-  }`}>
+  <button className={`dateslotpicker-w-8 dateslotpicker-h-8 dateslotpicker-flex 
+  dateslotpicker-items-center dateslotpicker-justify-center 
+  dateslotpicker-no-underline dateslotpicker-bg-none 
+  dateslotpicker-outline-none dateslotpicker-border-none
+  dateslotpicker-bg-transparent
+  ${isToday ? 'dateslotpicker-text-green-500' : 
+  'dateslotpicker-text-gray-500'}`}
+  disabled={true}
+  >
     {typeof calendarDate === 'string' ? "" : calendarDate.day}
-  </div>
+  </button>
 );
 
 const AvailableDate = ({
@@ -80,7 +85,7 @@ const AvailableDate = ({
       dateslotpicker-items-center dateslotpicker-justify-center
       dateslotpicker-no-underline dateslotpicker-bg-none 
       dateslotpicker-outline-none dateslotpicker-border-none
-      dateslotpicker-bg-transparent ${isSelected ? stylesMap['selectedDate']['dark'] : 
+      ${isSelected ? stylesMap['selectedDate']['dark'] : 
         isToday ? stylesMap['today']['dark'] : stylesMap['availableDate']['dark']
       } dateslotpicker-cursor-pointer`}
       onClick={() => onChangeSelectedDate(calendarDate)}
