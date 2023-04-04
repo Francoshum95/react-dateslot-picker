@@ -2,7 +2,6 @@ import DatePicker from './DatePicker';
 import TimeSlotpick from './TimeSlotpick';
 import { DateSlotPickContext } from '../context/DateSlotPickContext';
 import { defaultTimezone } from '../utils/common';
-import { defaultDuraiton } from './constant';
 
 export interface IsDateSlotPicker {
   startDate?: number;
@@ -22,17 +21,26 @@ export interface IsDateSlotPicker {
 }
 
 const DateSlotPicker = (props: IsDateSlotPicker) => {
-  const { currentDate } = props;
+  const { startDate, endDate, disableWeekly, disableSpecific, disableDate, currentDate } = props;
   const timezone = props.timezone || defaultTimezone;
 
   const ctxProps = {
     timezone,
     currentDate,
   }
+  const datePickerProps = {
+    startDate,
+    endDate,
+    disableWeekly,
+    disableSpecific,
+    disableDate
+  }
 
   return (
     <DateSlotPickContext {...ctxProps}>
-      <DatePicker/>
+      <DatePicker
+        {...datePickerProps}
+      />
       <TimeSlotpick/>
     </DateSlotPickContext>
   );
