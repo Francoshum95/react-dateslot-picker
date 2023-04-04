@@ -62,7 +62,7 @@ const DisableDate = ({
   'dateslotpicker-text-gray-500'}`}
   disabled={true}
   >
-    {typeof calendarDate === 'string' ? "" : calendarDate.day}
+    {calendarDate.day}
   </button>
 );
 
