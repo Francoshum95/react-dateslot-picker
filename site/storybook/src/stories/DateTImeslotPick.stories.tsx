@@ -1,6 +1,5 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { within, userEvent } from '@storybook/testing-library';
 import {DateSlotPicker} from '@react/datetimeslot-pick';
 import '@react/datetimeslot-pick/dist/style.css'
 
@@ -14,11 +13,22 @@ export default {
 
 const Template: ComponentStory<typeof DateSlotPicker> = (args) => <DateSlotPicker {...args} />;
 
-export const defaultSetting= Template.bind({});
-
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
-// LoggedIn.play = async ({ canvasElement }) => {
-//   const canvas = within(canvasElement);
-//   const loginButton = await canvas.getByRole('button', { name: /Log in/i });
-//   await userEvent.click(loginButton);
-// };
+export const Default= Template.bind({});
+Default.args = {
+  startDate: 1672549200000,
+  endDate: 1701406800000,
+  currentDate: 1680321600000,
+  dailyTimePair: [{
+    startTime: [10, 0],
+    endTime: [12, 0]
+  }, {
+    startTime: [14, 0],
+    endTime: [23, 59]
+  }],
+  disableWeekly:[1],
+  disableSpecific: [1],
+  disableDate: [1680580800000],
+  fullBooking: [1680804000000,],
+  timezone: "America/Toronto",
+  duration: 30
+};
