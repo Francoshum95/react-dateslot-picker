@@ -55,7 +55,7 @@ const DisableDate = ({
 }) => (
   <button className={`dateslotpicker-w-8 dateslotpicker-h-8 dateslotpicker-flex 
   dateslotpicker-items-center dateslotpicker-justify-center 
-  dateslotpicker-no-underline dateslotpicker-bg-none 
+  dateslotpicker-no-underline 
   dateslotpicker-outline-none dateslotpicker-border-none
   dateslotpicker-bg-transparent
   ${isToday ? 'dateslotpicker-text-green-500' : 
@@ -83,8 +83,8 @@ const AvailableDate = ({
     <button
       className={`dateslotpicker-w-8 dateslotpicker-h-8 dateslotpicker-flex 
       dateslotpicker-items-center dateslotpicker-justify-center
-      dateslotpicker-no-underline dateslotpicker-bg-none 
-      dateslotpicker-outline-none dateslotpicker-border-none
+      dateslotpicker-no-underline dateslotpicker-outline-none 
+      dateslotpicker-border-none
       ${isSelected ? stylesMap['selectedDate']['dark'] : 
         isToday ? stylesMap['today']['dark'] : stylesMap['availableDate']['dark']
       } dateslotpicker-cursor-pointer`}
@@ -100,7 +100,7 @@ const CalendarDate = (props: CalendarDateType) => {
   const {selectedDate, currentDatetime, 
     calendarDate, disableDatetime, 
     disableSpecificDate, disableWeeklyDay, 
-    onChangeSelectedDate} = props;
+    onChangeSelectedDate, endDatetime} = props;
 
   if (typeof calendarDate === 'string') {
     return <EmptyDate/>
@@ -111,7 +111,8 @@ const CalendarDate = (props: CalendarDateType) => {
   if ( disableWeeklyDay.includes(calendarDate.weekday) || 
     disableSpecificDate.includes(calendarDate.day) ||
     disableDatetime.includes(calendarDate.toMillis()) ||
-    calendarDate.toISODate() < currentDatetime.toISODate()
+    calendarDate.toISODate() < currentDatetime.toISODate() ||
+    calendarDate.toISODate() > endDatetime.toISODate()
   ){
     return <DisableDate
       isToday={isToday}
@@ -182,11 +183,11 @@ const DatePicker = (props: IsDateSlotPicker) => {
           <div className="dateslotpicker-flex dateslotpicker-w-1/5 dateslotpicker-justify-between">
             <button
               data-testid="button-previous"
-              className={`dateslotpicker-no-underline dateslotpicker-bg-none 
+              className={`dateslotpicker-no-underline 
               dateslotpicker-outline-none dateslotpicker-border-none
               dateslotpicker-bg-transparent dateslotpicker-cursor-pointer
               ${
-                isPreviousDisable && "dateslotpicker-hidden"
+                isPreviousDisable && "dateslotpicker-invisible"
               }`}
               disabled={isPreviousDisable}
               onClick={() => onChangeCalendarPeriod("previous")}
@@ -206,11 +207,11 @@ const DatePicker = (props: IsDateSlotPicker) => {
             </button>
             <button
               data-testid="button-forward"
-              className={`dateslotpicker-no-underline dateslotpicker-bg-none 
+              className={`dateslotpicker-no-underline 
               dateslotpicker-outline-none dateslotpicker-border-none
               dateslotpicker-bg-transparent dateslotpicker-cursor-pointer
               ${
-                isForwardDisable && "dateslotpicker-hidden"
+                isForwardDisable && "dateslotpicker-invisible"
               }`}
               disabled={isForwardDisable}
               onClick={() => onChangeCalendarPeriod("forward")}
