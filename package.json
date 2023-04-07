@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "site": "pnpm --filter @example/site",
-    "lib": "pnpm --filter @react/datetimeslot-pick",
+    "lib": "pnpm --filter @react/dateslot-picker",
     "storybook": "pnpm --filter @storybook/site",
-    "dev": "pnpm --recursive --parallel --stream run dev"
+    "dev": "pnpm --recursive --parallel --stream run dev",
   },
   "keywords": [],
   "author": "",

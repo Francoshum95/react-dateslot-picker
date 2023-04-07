@@ -1,20 +1,18 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import {DateSlotPicker} from '@react/datetimeslot-pick';
-import '@react/datetimeslot-pick/dist/style.css'
+import {DateSlotPicker} from '@react/dateslot-picker';
+
+import '@react/dateslot-picker/dist/style.css'
 
 export default {
-  title: 'Example/DateSlotPicker',
+  title: 'DateSlotPicker',
   component: DateSlotPicker,
-  parameters: {
-    layout: 'fullscreen',
-  },
 } as ComponentMeta<typeof DateSlotPicker>;
 
 const Template: ComponentStory<typeof DateSlotPicker> = (args) => <DateSlotPicker {...args} />;
 
-export const Default= Template.bind({});
-Default.args = {
+export const Usecase= Template.bind({});
+Usecase.args = {
   startDate: 1672549200000,
   endDate: 1701406800000,
   currentDate: 1680321600000,

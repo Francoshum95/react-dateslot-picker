@@ -14,7 +14,7 @@
   },
   "references": [
     {
-      "path": ["@example/site","@react/datetimeslot-pick", "@storybook/site"]
+      "path": ["@example/site","@react/dateslot-picker"]
     }
   ]
 }

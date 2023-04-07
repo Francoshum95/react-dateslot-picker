@@ -1,5 +1,5 @@
 {
-  "name": "@react/datetimeslot-pick",
+  "name": "@react/dateslot-picker",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -41,6 +41,7 @@
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.14",
     "babel-jest": "^29.5.0",
+    "cypress": "^12.9.0",
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
     "postcss": "^8.4.21",
