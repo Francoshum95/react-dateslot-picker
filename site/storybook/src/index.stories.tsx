@@ -1,5 +1,4 @@
 import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
 import {DateSlotPicker} from '@react/dateslot-picker';
 
 import '@react/dateslot-picker/dist/style.css'
@@ -7,9 +6,9 @@ import '@react/dateslot-picker/dist/style.css'
 export default {
   title: 'DateSlotPicker',
   component: DateSlotPicker,
-} as ComponentMeta<typeof DateSlotPicker>;
+} 
 
-const Template: ComponentStory<typeof DateSlotPicker> = (args) => <DateSlotPicker {...args} />;
+const Template  = args => <DateSlotPicker {...args} />;
 
 export const Usecase= Template.bind({});
 Usecase.args = {
@@ -26,7 +25,7 @@ Usecase.args = {
   disableWeekly:[1],
   disableSpecific: [1],
   disableDate: [1680580800000],
-  fullBooking: [1680804000000,],
+  fullBooking: [1680804000000],
   timezone: "America/Toronto",
   duration: 30,
   onSelectDatetime: (timestamp) => {console.log(timestamp) }

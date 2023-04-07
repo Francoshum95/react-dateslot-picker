@@ -7,7 +7,7 @@
     "lib": "pnpm --filter @react/dateslot-picker",
     "storybook": "pnpm --filter @storybook/site",
     "dev": "pnpm --recursive --parallel --stream run dev",
-    "build:ci": "pnpm run build:ui && pnpm run build:storybook",
+    "build:ci": "pnpm run build:ui && npx pnpm -w run build:ci",
     "build:ui": "pnpm lib build",
     "build:storybook": "pnpm storybook build"
   },
