@@ -31,6 +31,7 @@ const DateSlotPicker = (props: IsDateSlotPicker) => {
     duration,
     dailyTimePair,
     onSelectDatetime,
+    fullBooking,
   } = props;
   const timezone = props.timezone || defaultTimezone;
 
@@ -50,6 +51,7 @@ const DateSlotPicker = (props: IsDateSlotPicker) => {
     duration,
     dailyTimePair, 
     endDate,
+    fullBooking,
     onSelectDatetime
   };
 
