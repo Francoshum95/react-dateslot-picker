@@ -98,6 +98,7 @@ importers:
       '@storybook/addon-interactions': ^6.5.16
       '@storybook/addon-links': ^6.5.16
       '@storybook/builder-vite': ^0.4.2
+      '@storybook/client-api': ^7.0.2
       '@storybook/preview-web': ^7.0.2
       '@storybook/react': ^6.5.16
       '@storybook/testing-library': ^0.0.13
@@ -121,6 +122,7 @@ importers:
       '@storybook/addon-interactions': 6.5.16_fleixqh4h74dmdivs7fx6vtiqe
       '@storybook/addon-links': 6.5.16_biqbaboplfbrettd7655fr4n2y
       '@storybook/builder-vite': 0.4.2_ddifmq227jv4qfxx6ubcfrewpm
+      '@storybook/client-api': 7.0.2
       '@storybook/preview-web': 7.0.2
       '@storybook/react': 6.5.16_3hogg3giqxmbufdbw4wbyxbure
       '@storybook/testing-library': 0.0.13_biqbaboplfbrettd7655fr4n2y
@@ -3323,6 +3325,13 @@ packages:
       synchronous-promise: 2.0.17
       ts-dedent: 2.2.0
       util-deprecate: 1.0.2
+    dev: true
+
+  /@storybook/client-api/7.0.2:
+    resolution: {integrity: sha512-KuMZqN012EX7RBEpafC3WeAofHSbojP3KbKr0EOFTwbdXFFd6Z5x+b5zjkXu21maw0K+qPHh4SiWEi0UA/M8AA==}
+    dependencies:
+      '@storybook/client-logger': 7.0.2
+      '@storybook/preview-api': 7.0.2
     dev: true
 
   /@storybook/client-logger/6.5.16:

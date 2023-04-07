@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   build: {
     rollupOptions: {
-      external: ['@storybook/preview-web']
+      external: ['@storybook/preview-web', "@storybook/client-api"]
     }
   }
 })
