@@ -4,7 +4,7 @@
 [build]
   base = "site/storybook/"
   publish = "dist/"
-  command = "npx pnpm i --store=node_modules/.pnpm-store --frozen-lockfile && npx pnpm run build:ci"
+  command = "npx pnpm i --store=node_modules/.pnpm-store --frozen-lockfile && npx pnpm -w run build:ci"
 [[redirects]]
   from = "/*"
   to = "index.html"
