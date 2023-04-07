@@ -1,0 +1,1 @@
+export const defaultTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone; 
