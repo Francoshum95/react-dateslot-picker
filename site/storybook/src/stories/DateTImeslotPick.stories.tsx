@@ -30,5 +30,6 @@ Default.args = {
   disableDate: [1680580800000],
   fullBooking: [1680804000000,],
   timezone: "America/Toronto",
-  duration: 30
+  duration: 30,
+  onSelectDatetime: (timestamp) => {console.log(timestamp) }
 };

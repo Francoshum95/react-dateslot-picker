@@ -12,7 +12,8 @@ type propsType = {
   dailyTimePair?: {
     startTime: number[];
     endTime: number[];
-  }[]
+  }[],
+  onSelectDatetime?: (timestamp: number) => {}
 };
 
 type timeslotType = {
@@ -101,7 +102,8 @@ const TimeSlotpicker = (props:propsType) => {
     endDate: props.endDate,
     dailyTimePair: props.dailyTimePair,
     duration: props.duration,
-    fullBooking: props.fullBooking
+    fullBooking: props.fullBooking,
+    onSelectDatetime: props.onSelectDatetime
   });
 
   const fullBooking = props.fullBooking || [];

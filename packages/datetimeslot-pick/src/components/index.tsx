@@ -17,6 +17,7 @@ export interface IsDateSlotPicker {
   fullBooking?: number[];
   timezone?: string;
   duration?: number;
+  onSelectDatetime?: (timestamp: number) => any
 }
 
 const DateSlotPicker = (props: IsDateSlotPicker) => {
@@ -29,6 +30,7 @@ const DateSlotPicker = (props: IsDateSlotPicker) => {
     currentDate,
     duration,
     dailyTimePair,
+    onSelectDatetime,
   } = props;
   const timezone = props.timezone || defaultTimezone;
 
@@ -47,7 +49,8 @@ const DateSlotPicker = (props: IsDateSlotPicker) => {
     disableDate,
     duration,
     dailyTimePair, 
-    endDate
+    endDate,
+    onSelectDatetime
   };
 
   return (

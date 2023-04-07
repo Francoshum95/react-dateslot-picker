@@ -98,6 +98,16 @@ const useTimeSlotPicker = (props: IsDateSlotPicker) => {
 
   const onChangeSelectedDateslot = (timeslot: DateTime) => {
     setSelectedTimeslot(timeslot);
+    if (props.onSelectDatetime){
+      const selectedDatetime = DateTime.fromObject({
+        year: selectedDate?.year,
+        month: selectedDate?.month,
+        day: selectedDate?.day,
+        hour: timeslot.hour,
+        minute: timeslot.minute
+      }).setZone(timezone)
+      props.onSelectDatetime(selectedDatetime.toMillis())
+    }
   };
 
   return {
