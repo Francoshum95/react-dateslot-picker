@@ -17,6 +17,7 @@
     "@babel/preset-env": "~7.21.0",
     "@babel/preset-react": "~7.18.6",
     "@babel/preset-typescript": "~7.21.0",
+    "@storybook/addon-docs": "^7.0.2",
     "@storybook/addon-essentials": "^7.0.2",
     "@storybook/core-common": "~7.0.0-rc.10",
     "@storybook/react": "~7.0.0-rc.10",

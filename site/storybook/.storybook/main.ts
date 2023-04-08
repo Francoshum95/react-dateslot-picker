@@ -3,7 +3,7 @@ import { StorybookConfig } from "@storybook/react-webpack5";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 
 const config: StorybookConfig = {
-  stories: ["../src/*.stories.tsx"],
+  stories: ["../src/**/*.stories.@(js|jsx|ts|tsx)", "../src/**/*.stories.mdx"],
   addons: [
     "@storybook/addon-essentials",
   ],

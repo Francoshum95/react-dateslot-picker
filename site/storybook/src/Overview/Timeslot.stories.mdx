@@ -1,0 +1,144 @@
+import { Meta } from '@storybook/addon-docs';
+import { Unstyled } from '@storybook/blocks';
+import { DateSlotPicker } from '@react/dateslot-picker';
+import '@react/dateslot-picker/dist/style.css';
+
+<Meta title="Overview/Timeslot" />
+
+<Unstyled>
+  # Timeslot
+
+## dailyTimePair
+It take a object of array, e.g. `[{startTime: [10, 0], endTime: [12, 0]}]` - [hour, min]
+
+{' '}
+<DateSlotPicker
+  dailyTimePair={[
+    {
+      startTime: [10, 0],
+      endTime: [12, 0],
+    },
+    {
+      startTime: [14, 0],
+      endTime: [23, 59],
+    },
+  ]}
+/>
+
+    ``` js filename="example.ts"
+    import {DateSlotPicker} from '@react/dateslot-picker';
+    import '@react/dateslot-picker/dist/style.css'
+
+    const Example  = () => {
+
+      const props = {
+        dailyTimePair: {[{
+          startTime: [10, 0],
+          endTime: [12, 0]
+        }, {
+          startTime: [14, 0],
+          endTime: [23, 59]
+        }]}
+      };
+
+      return (
+        <DateSlotPicker
+          {...props}
+        />
+      )
+    };
+
+```
+</Unstyled>
+
+<Unstyled>
+
+## fullBooking
+
+ Disable a timeslot 
+
+<DateSlotPicker
+  currentDate={1680321600000}
+  fullBooking={[1680804000000]}
+/>
+
+    ``` js filename="example.ts"
+    import {DateSlotPicker} from '@react/dateslot-picker';
+    import '@react/dateslot-picker/dist/style.css'
+
+    const Example  = () => {
+
+      const props = {
+        currentDate: 1680321600000
+        fullBooking: [1680804000000] // Thu Apr 06 2023 18:00:00 GMT+0000
+      };
+
+      return (
+        <DateSlotPicker
+          {...props}
+        />
+      )
+    };
+
+```
+</Unstyled>
+
+<Unstyled>
+
+## Duration
+
+ Each section of timeslot 
+
+  <DateSlotPicker
+    duration={60}
+  />
+
+    ``` js filename="example.ts"
+    import {DateSlotPicker} from '@react/dateslot-picker';
+    import '@react/dateslot-picker/dist/style.css'
+
+    const Example  = () => {
+
+      const props = {
+        duration: 60  // 60 mins
+      };
+
+      return (
+        <DateSlotPicker
+          {...props}
+        />
+      )
+    };
+
+```
+</Unstyled>
+
+
+<Unstyled>
+
+## onSelectDatetime
+
+  <DateSlotPicker
+    onSelectDatetime={(timestamp) => {console.log(timestamp)}}
+  />
+
+    ``` js filename="example.ts"
+    import {DateSlotPicker} from '@react/dateslot-picker';
+    import '@react/dateslot-picker/dist/style.css'
+
+    const Example  = () => {
+
+      const props = {
+        onSelectDatetime: (timestamp: number) => {console.log(timestamp)}
+      };
+
+      return (
+        <DateSlotPicker
+          {...props}
+        />
+      )
+    };
+
+```
+</Unstyled>
+
