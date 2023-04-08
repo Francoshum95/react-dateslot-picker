@@ -1,7 +1,18 @@
 {
   "name": "@react/dateslot-picker",
-  "private": true,
   "version": "1.0.0",
+  "description": "A React calendar and timeslot picker",
+  "author": "Franco Shum",
+  "homepage": "https://react-dateslot-picker.netlify.app",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Francoshum95/react-dateslot-picker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Francoshum95/react-dateslot-picker/issues"
+  },
+  "keywords": ["timeslot", "react", "datepicker", "calendar"],
   "type": "module",
   "main": "./dist/main.umd.js",
   "module": "./dist/main.js",
@@ -16,7 +27,7 @@
   "files": [
     "dist/",
     "src/",
-    "!src/**/*.test.tsx"
+    "tsconfig.json"
   ],
   "scripts": {
     "dev": "vite build --watch",
