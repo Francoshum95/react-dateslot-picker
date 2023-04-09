@@ -1,7 +1,7 @@
 import React from 'react';
-import {DateSlotPicker} from '@react/dateslot-picker';
+import {DateSlotPicker} from 'react-dateslot-picker';
 
-import '@react/dateslot-picker/dist/style.css'
+import 'react-dateslot-picker/dist/style.css'
 
 export default {
   title: 'PlayGround',

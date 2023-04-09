@@ -1,5 +1,5 @@
 {
-  "name": "@react/dateslot-picker",
+  "name": "react-dateslot-picker",
   "version": "1.0.0",
   "description": "A React calendar and timeslot picker",
   "author": "Franco Shum <franco.shum@hotmail.com>",

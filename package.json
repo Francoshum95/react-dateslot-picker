@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lib": "pnpm --filter @react/dateslot-picker",
+    "lib": "pnpm --filter react-dateslot-picker",
     "storybook": "pnpm --filter @storybook/site",
     "dev": "pnpm --recursive --parallel --stream run dev",
     "build:ci": "pnpm run build:ui && pnpm run build:storybook",
