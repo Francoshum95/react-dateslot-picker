@@ -1,8 +1,6 @@
 import { useState, useContext, useEffect, useMemo } from 'react';
 import { DateSlotPickCtx } from '../context/DateSlotPickContext';
 import {
-  START,
-  END,
   FIRST_MONTH,
   LAST_MONTH,
   FORWARD,
@@ -63,38 +61,6 @@ const getCalendarArray = (
   return calendarArray;
 };
 
-const getDatetime = ({
-  timeStamp,
-  period,
-  timezone,
-}: {
-  timeStamp?: number;
-  period: typeof START | typeof END;
-  timezone: selectedTimezoneType;
-}) => {
-  
-  if (timeStamp) {
-    return DateTime.fromMillis(timeStamp).setZone(timezone);
-  }
-
-  const currentDatetime = DateTime.now().setZone(timezone);
-  const currentYaer = currentDatetime.year;
-
-  if (period === START) {
-    return DateTime.fromObject({
-      year: currentYaer - 100, month: 1
-    }).setZone(timezone);
-  }
-
-  if (period === END) {
-    return DateTime.fromObject({
-      year: currentYaer + 100, month: 1
-    }).setZone(timezone);
-  }
-
-  return currentDatetime
-};
-
 const getDisable = (disable: IsDateSlotPicker['disableSpecific'] | IsDateSlotPicker['disableWeekly']) => {
   const dateArray: disableDateType = [];
 
@@ -143,22 +109,20 @@ const adjustDisableDate = (dates:number [] | null | undefined, timezone: string)
 }
 
 const useDatePicker = (props: IsDateSlotPicker) => {
-  const { startDate, endDate, disableWeekly, disableSpecific, disableDate } = props;
-  const { selectedDate, currentDatetime, timezone, onChangeSelectedDate } = useContext(DateSlotPickCtx);
+  const {disableWeekly, disableSpecific, disableDate } = props;
+  const {
+    selectedDate,
+     currentDatetime, 
+     startDatetime,
+     endDatetime,
+     timezone, 
+     onChangeSelectedDate } = useContext(DateSlotPickCtx);
 
   const [calendarPeriod, setCalendarPeriod] = useState<calendarPeriodType>({
     year: currentDatetime.year,
     month: currentDatetime.month,
   });
 
-  const startDatetime = useMemo(
-    () => getDatetime({ timeStamp: startDate, period: START, timezone }),
-    [timezone]
-  );
-  const endDatetime = useMemo(
-    () => getDatetime({ timeStamp: endDate, period: END, timezone }),
-    [timezone]
-  );
   const calendarArray = useMemo(
     () => getCalendarArray(calendarPeriod, timezone),
     [calendarPeriod.year, calendarPeriod.month, timezone]
@@ -220,10 +184,9 @@ const useDatePicker = (props: IsDateSlotPicker) => {
   };
 
   return {
+    selectedDate,
     isForwardDisable,
     isPreviousDisable,
-    startDatetime,
-    selectedDate,
     endDatetime,
     calendarArray,
     calendarPeriod,

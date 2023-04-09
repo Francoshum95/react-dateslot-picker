@@ -9,6 +9,7 @@ import {
 import { defaultDuraiton } from '../components/constant';
 
 type getTimeslotType = IsDateSlotPicker & {
+  endDatetime: DateTime;
   timezone: selectedTimezoneType;
   selectedDate: selectedDateType;
 };
@@ -16,22 +17,9 @@ type getTimeslotType = IsDateSlotPicker & {
 export type selectedTimeslotType = DateTime | null;
 export type onChangeSelectedDateslotType = (timeslot: DateTime) => void;
 
-const getEndDatetime = (timeStamp: number | undefined, timezone: string) => {
-  if (timeStamp) {
-    return DateTime.fromMillis(timeStamp).setZone(timezone);
-  };
-
-  const currentDatetime = DateTime.now().setZone(timezone);
-  const currentYaer = currentDatetime.year;
-
-  return DateTime.fromObject({
-    year: currentYaer + 100, month: 1
-  }).setZone(timezone);
-
-};
 
 const getTimeslot = ({
-  endDate,
+  endDatetime,
   selectedDate,
   dailyTimePair,
   duration,
@@ -41,17 +29,16 @@ const getTimeslot = ({
 
   if (selectedDate && duration) {
     const { year, month, day } = selectedDate;
-    const endPeropdDatetime = getEndDatetime(endDate, timezone);
     
     dailyTimePair?.forEach((time) => {
-      const startDatetime = DateTime.fromObject({
+      const startDate = DateTime.fromObject({
         year,
         month,
         day,
         hour: time.startTime[0],
         minute: time.startTime[1],
       }).setZone(timezone);
-      const endDatetime = DateTime.fromObject({
+      const endDate = DateTime.fromObject({
         year,
         month,
         day,
@@ -59,12 +46,12 @@ const getTimeslot = ({
         minute: time.endTime[1],
       }).setZone(timezone);
 
-      let currentDateTime = startDatetime;
+      let currentDateTime = startDate;
 
-      while (currentDateTime.toMillis() < endDatetime.toMillis()
+      while (currentDateTime.toMillis() < endDate.toMillis()
       ) {
 
-        if (endPeropdDatetime.toMillis() > currentDateTime.toMillis()){
+        if (endDatetime.toMillis() > currentDateTime.toMillis()){
           timeslot.push(currentDateTime);
         };
 
@@ -79,7 +66,7 @@ const getTimeslot = ({
 };
 
 const useTimeSlotPicker = (props: IsDateSlotPicker) => {
-  const { selectedDate, timezone } = useContext(DateSlotPickCtx);
+  const { selectedDate, timezone, endDatetime } = useContext(DateSlotPickCtx);
 
   const dailyTimePair = props.dailyTimePair ||  [{
     startTime: [0, 0],
@@ -92,8 +79,8 @@ const useTimeSlotPicker = (props: IsDateSlotPicker) => {
     useState<selectedTimeslotType>(null);
 
   const timeslots = useMemo(
-    () => getTimeslot({ endDate: props.endDate, disableDate, selectedDate, dailyTimePair, duration, timezone }),
-    [timezone, selectedDate]
+    () => getTimeslot({ endDatetime, disableDate, selectedDate, dailyTimePair, duration, timezone }),
+    [endDatetime, selectedDate]
   );
 
   const onChangeSelectedDateslot = (timeslot: DateTime) => {

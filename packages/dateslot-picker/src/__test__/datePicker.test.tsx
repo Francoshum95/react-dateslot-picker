@@ -86,13 +86,14 @@ describe('Datepicker', () => {
       }).setZone(defaultTimezone).toMillis()
       
       const wrapper = ({ children }: { children: ReactNode }) => (
-        <DateSlotPickContext timezone={defaultTimezone} currentDate={currentDate}>
+        <DateSlotPickContext 
+        timezone={defaultTimezone} currentDate={currentDate}
+        startDate={mockStartTime } endDate={mockEndTime}>
           {children}
         </DateSlotPickContext>
       );
 
-      const { result } = renderHook(() => useDatePicker({
-        startDate: mockStartTime, endDate: mockEndTime}), { wrapper });
+      const { result } = renderHook(() => useDatePicker({}), { wrapper });
       
       expect(result.current.isForwardDisable).toBe(false);
       expect(result.current.isPreviousDisable).toBe(true);
@@ -122,12 +123,15 @@ describe('Datepicker', () => {
       }).setZone(defaultTimezone).toMillis();
 
       const wrapper = ({ children }: { children: ReactNode }) => (
-        <DateSlotPickContext timezone={defaultTimezone} currentDate={currentDate}>
+        <DateSlotPickContext 
+        timezone={defaultTimezone} currentDate={currentDate}
+        startDate={mockStartTime } endDate={mockEndTime}
+        >
           {children}
         </DateSlotPickContext>
       );
 
-      const { result } = renderHook(() => useDatePicker({startDate: mockStartTime, endDate: mockEndTime}), { wrapper });
+      const { result } = renderHook(() => useDatePicker({}), { wrapper });
 
       expect(result.current.isForwardDisable).toBe(false);
       expect(result.current.isPreviousDisable).toBe(false);
@@ -187,12 +191,6 @@ describe('Datepicker', () => {
       const mockDate = DateTime.fromObject({year: defaultMockYaer, month: defaultMockMonth}).setZone(defaultTimezone)
       const currentDate = mockDate.toMillis();
 
-      const wrapper = ({ children }: { children: ReactNode }) => (
-        <DateSlotPickContext timezone={defaultTimezone} currentDate={currentDate}>
-          {children}
-        </DateSlotPickContext>
-      );
-
       const mockStartTime = DateTime.fromObject({
         year: defaultMockYaer,
         month: mockStartMonth - 2
@@ -203,7 +201,16 @@ describe('Datepicker', () => {
         month: mockEnDate -1
       }).setZone(defaultTimezone).toMillis();
 
-      const { result } = renderHook(() => useDatePicker({startDate: mockStartTime, endDate: mockEndTime}), { wrapper });
+      const wrapper = ({ children }: { children: ReactNode }) => (
+        <DateSlotPickContext 
+        timezone={defaultTimezone} currentDate={currentDate}
+        startDate={mockStartTime} endDate={mockEndTime}
+        >
+          {children}
+        </DateSlotPickContext>
+      );
+
+      const { result } = renderHook(() => useDatePicker({}), { wrapper });
 
       expect(result.current.isForwardDisable).toBe(true);
       expect(result.current.isPreviousDisable).toBe(true);

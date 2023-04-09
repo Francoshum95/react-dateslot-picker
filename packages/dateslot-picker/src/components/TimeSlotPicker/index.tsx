@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import useTimeSlotPicker, { onChangeSelectedDateslotType, selectedTimeslotType } from "../../hook/useTimeSlotPicker";
 import { DateTime } from 'luxon';
-import { currentDatetimeType, DateSlotPickCtx } from "../../context/DateSlotPickContext";
+import { DatetimeType, DateSlotPickCtx } from "../../context/DateSlotPickContext";
 
 import "../../styles/timeslot.css";
 
@@ -18,7 +18,7 @@ type propsType = {
 
 type timeslotType = {
   fullBooking: number[]
-  currentDatetime: currentDatetimeType
+  currentDatetime: DatetimeType
   selectedTimeslot: selectedTimeslotType
   timeslot: DateTime
   onChangeSelectedDateslot: onChangeSelectedDateslotType
@@ -99,7 +99,6 @@ const TimeSlotpicker = (props:propsType) => {
     selectedTimeslot,
     timeslots,
     onChangeSelectedDateslot} = useTimeSlotPicker({
-    endDate: props.endDate,
     dailyTimePair: props.dailyTimePair,
     duration: props.duration,
     fullBooking: props.fullBooking,
