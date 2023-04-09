@@ -106,7 +106,27 @@ const adjustDisableDate = (dates:number [] | null | undefined, timezone: string)
   };
 
   return disableDate
-}
+};
+
+const initialCalendarPeriod = ({
+  currentDatetime,
+  startDatetime,
+}: {
+  currentDatetime: DateTime
+  startDatetime: DateTime
+}) => {
+  if (currentDatetime.toMillis() < startDatetime.toMillis()){
+    return {
+      year: startDatetime.year,
+      month: startDatetime.month
+    }
+  };
+
+  return {
+    year: currentDatetime.year,
+    month: currentDatetime.month 
+  }
+};
 
 const useDatePicker = (props: IsDateSlotPicker) => {
   const {disableWeekly, disableSpecific, disableDate } = props;
@@ -118,10 +138,10 @@ const useDatePicker = (props: IsDateSlotPicker) => {
      timezone, 
      onChangeSelectedDate } = useContext(DateSlotPickCtx);
 
-  const [calendarPeriod, setCalendarPeriod] = useState<calendarPeriodType>({
-    year: currentDatetime.year,
-    month: currentDatetime.month,
-  });
+  const [calendarPeriod, setCalendarPeriod] = useState<calendarPeriodType>(initialCalendarPeriod({
+    currentDatetime,
+    startDatetime,
+  }));
 
   const calendarArray = useMemo(
     () => getCalendarArray(calendarPeriod, timezone),

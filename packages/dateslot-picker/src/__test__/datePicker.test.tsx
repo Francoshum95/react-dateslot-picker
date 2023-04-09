@@ -217,6 +217,61 @@ describe('Datepicker', () => {
     });
   });
 
+  describe('display calendar Period', () => {
+    
+    it ("should return correct calendar period", () => {
+      const mockDate = DateTime.fromObject({year: defaultMockYaer, month: defaultMockMonth}).setZone(defaultTimezone)
+      const currentDate = mockDate.toMillis()
+
+      const mockStartTime = DateTime.fromObject({
+        year: defaultMockYaer,
+        month: defaultMockMonth
+      }).setZone(defaultTimezone).toMillis()
+
+
+      const wrapper = ({ children }: { children: ReactNode }) => (
+        <DateSlotPickContext 
+        timezone={defaultTimezone} currentDate={currentDate}
+        startDate={mockStartTime }>
+          {children}
+        </DateSlotPickContext>
+      );
+
+      const { result } = renderHook(() => useDatePicker({}), { wrapper });
+      expect( result.current.calendarPeriod).toStrictEqual({
+        year: mockDate.year,
+        month: mockDate.month
+      })
+    });
+
+    it ("should return correct calendar period - startDate < currentDate", () => {
+      const mockCurrentDate = DateTime.fromObject({
+        year: defaultMockYaer,
+        month: defaultMockMonth
+        }).setZone(defaultTimezone)
+      
+      const mockMonth = defaultMockMonth + 1;
+      const mokcStartDate = DateTime.fromObject({
+        year: defaultMockYaer,
+        month: mockMonth
+      }).setZone(defaultTimezone)
+
+      const wrapper = ({ children }: { children: ReactNode }) => (
+        <DateSlotPickContext 
+        timezone={defaultTimezone} currentDate={mockCurrentDate.toMillis()}
+        startDate={mokcStartDate.toMillis()}>
+          {children}
+        </DateSlotPickContext>
+      );
+
+      const { result } = renderHook(() => useDatePicker({}), { wrapper });
+      expect( result.current.calendarPeriod).toStrictEqual({
+        year: mokcStartDate.year,
+        month: mokcStartDate.month
+      })
+    });
+  });
+
   describe('initial calendar', () => {
     const mockDate = DateTime.fromObject({year: defaultMockYaer, month: 11}).setZone(defaultTimezone);
     
