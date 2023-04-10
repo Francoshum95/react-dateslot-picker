@@ -1,9 +1,58 @@
 # React-Dateslot-Picker
 ![](demo/picker_demo.gif?raw=1)
 
-A React calendar and timeslot picker
+A customizable calendar and timeslot picker was designed as React components that can handle most booking/reversion use cases.
 
-Demo: https://react-dateslot-picker.netlify.app
+Demo, Documentation & Example: [react-dateslot-picker](https://link-url-here.org) 
+
+## Installation
+
+```
+npm install react-dateslot-picker
+```
+
+```
+yarn add react-dateslot-picker
+```
+
+## Example
+
+```javaScript
+    import {DateSlotPicker} from 'react-dateslot-picker';
+    import 'react-dateslot-picker/dist/style.css'
+
+    const Example  = () => {
+      const props = {
+        startDate: 1672549200000,
+        endDate: 1701406800000,
+        currentDate: 1680321600000,
+        dailyTimePair: [{
+          startTime: [10, 0],
+          endTime: [12, 0]
+        }, {
+          startTime: [14, 0],
+          endTime: [23, 59]
+        }],
+        disableWeekly:[1],
+        disableSpecific: [1],
+        fullBooking: [1680804000000],
+        timezone: "America/Toronto",
+        disableDate: [1680580800000],
+        duration: 30,
+        onSelectDatetime: (timestamp: number) => {
+          console.log(timestamp)
+          }
+      };
+
+      return (
+        <DateSlotPicker
+          {...props}
+        />
+      )
+    }; 
+
+```
+
 
 
 ## Documentation
