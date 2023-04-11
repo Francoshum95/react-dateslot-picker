@@ -3,7 +3,7 @@
 
 A customizable calendar and timeslot picker was designed as React components that can handle most booking/reversion use cases.
 
-Demo, Documentation & Example: [react-dateslot-picker](https://link-url-here.org) 
+Demo, Documentation & Example: [react-dateslot-picker](https://react-dateslot-picker.netlify.app/?path=/docs/overview-about--docs) 
 
 ## Installation
 
