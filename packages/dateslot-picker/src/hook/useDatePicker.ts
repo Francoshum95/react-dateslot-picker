@@ -184,7 +184,8 @@ const useDatePicker = (props: IsDateSlotPicker) => {
 
     initialSelectedDate();
  
-  },[timezone]);
+
+  },[endDatetime]);
   
     const onChangeCalendarPeriod: onChangeCalendarPeriodType = (driection) => {
     const cloneCalendarPeriod = { ...calendarPeriod };

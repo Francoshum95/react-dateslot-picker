@@ -36,12 +36,12 @@ const DateSlotPicker = (props: IsDateSlotPicker) => {
   const timezone = props.timezone || defaultTimezone;
 
   const ctxProps = {
+    startDate,
+    endDate,
     timezone,
     currentDate,
   };
   const datePickerProps = {
-    startDate,
-    endDate,
     disableWeekly,
     disableSpecific,
     disableDate,
@@ -50,7 +50,6 @@ const DateSlotPicker = (props: IsDateSlotPicker) => {
     disableDate,
     duration,
     dailyTimePair, 
-    endDate,
     fullBooking,
     onSelectDatetime
   };
